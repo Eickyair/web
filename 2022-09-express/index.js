@@ -7,10 +7,12 @@ const app = express();
 
 //+ middlewares
 
-// cualquier ruta de mi app pasa por este middleware -> para poder preprocesar informacion
+//TODO el orden de los middlewares si afecta su funcionamiento y flujo
+
+
+// este middleware afecta a todas las rutas que esten por debajo
 app.use((req, res, next) => {
-  console.log("paso por aqui") //debemos asegurarnos que cuando pase por este flujo termine y continue
-  // mi logica
+  // estos nospueden servir para autenticar informacion
   console.log(`Route: ${req.url} Method: ${req.method}`)
   next()
 });
@@ -22,6 +24,24 @@ app.get("/profile", (req, res) => {
 app.all('/about',(req,res)=>{
   res.send('about page')
 })
+
+// ruta que solo pueden acceder lo usuarios registrados
+app.use((req,res,next)=>{
+  if(req.query.login==='anvil@anvil.com'){
+    next()
+  }else{
+    res.send("no autorizado")
+  }
+})
+app.get('/dashboard',(req,res)=>{
+  res.send('Dashboard page')
+})
+
+
+
+
+
+
 
 app.listen(3000);
 console.log("Server on port", 3000);
