@@ -27,7 +27,7 @@ app.all('/about',(req,res)=>{
 
 // ruta que solo pueden acceder lo usuarios registrados
 app.use((req,res,next)=>{
-  if(req.query.login==='anvil@anvil.com'){
+  if(req.query.login==='anvil@anvil.com'){  
     next()
   }else{
     res.send("no autorizado")
