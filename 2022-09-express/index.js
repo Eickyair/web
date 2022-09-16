@@ -3,21 +3,26 @@ video: https://www.youtube.com/watch?v=JmJ1WUoUIK4&t=153s
 */
 
 const express = require("express");
+const morgan = require("morgan")
 const app = express();
 
-//+ middlewares
 
-//TODO el orden de los middlewares si afecta su funcionamiento y flujo
+// REST es un conjunto de recomendaciones para nombrar nuestras rutas 
+
+// el servidor es un intermediario entre la base de datos y el cliente
+//+ middlewares -  morgan
+/** nos permite loggear 
+ * Existen muchos tipos para casi cualquier funcionalidad
+*/
+app.use(morgan('dev'))
+
+// entonces para comprender json usamos un middleware
+app.use(express.json())
 
 
-// este middleware afecta a todas las rutas que esten por debajo
-app.use((req, res, next) => {
-  // estos nospueden servir para autenticar informacion
-  console.log(`Route: ${req.url} Method: ${req.method}`)
-  next()
-});
 
 app.get("/profile", (req, res) => {
+  console.log(req.body)
   res.send("profile page");
 });
 
